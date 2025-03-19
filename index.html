@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Speed Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube Speed Test</h1>
+    <button id="startTest">Start Speed Test</button>
+    <div id="result">Result will appear here...</div>
+
+    <script>
+        async function testDownloadSpeed() {
+            const startTime = Date.now();
+            const videoUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Replace with a real YouTube video URL
+            const response = await fetch(videoUrl); // Fetch the video
+            const endTime = Date.now();
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch video");
+            }
+
+            const fileSizeBytes = response.headers.get("content-length"); // Get file size in bytes
+            const fileSizeMB = fileSizeBytes / (1024 * 1024); // Convert to MB
+            const timeTakenSeconds = (endTime - startTime) / 1000; // Time in seconds
+            const speedMbps = (fileSizeMB * 8) / timeTakenSeconds; // Speed in Mbps
+
+            document.getElementById("result").textContent = `Download Speed: ${speedMbps.toFixed(2)} Mbps`;
+        }
+
+        document.getElementById("startTest").addEventListener("click", testDownloadSpeed);
+    </script>
+</body>
+</html>
